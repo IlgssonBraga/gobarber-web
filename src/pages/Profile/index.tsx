@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, FormEvent, ChangeEvent } from 'react';
+import React, { useCallback, useRef, ChangeEvent } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { FiMail, FiLock, FiUser, FiCamera, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
@@ -75,14 +75,14 @@ const Profile: React.FC = () => {
 
                 updateUser(response.data);
 
+                history.goBack();
+
                 addToast({
                     type: 'success',
                     title: 'Perfil atualizado com sucesso',
                     description:
                         'Sua informações do perfil foram atualizadas com sucesso!',
                 });
-
-                history.push('/');
             } catch (err) {
                 if (err instanceof Yup.ValidationError) {
                     const errors = getValidationErrors(err);
@@ -98,7 +98,7 @@ const Profile: React.FC = () => {
                 });
             }
         },
-        [addToast, history],
+        [addToast, history, updateUser],
     );
 
     const handleAvatarChange = useCallback(
